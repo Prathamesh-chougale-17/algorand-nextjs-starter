@@ -2,7 +2,7 @@ import { AlgorandClient, algo } from "@algorandfoundation/algokit-utils";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
+import { getAlgodConfigFromEnvironment } from "../utils/network/getAlgoClientConfigs";
 
 interface TransactInterface {
   openModal: boolean;
@@ -13,7 +13,7 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [receiverAddress, setReceiverAddress] = useState<string>("");
 
-  const algodConfig = getAlgodConfigFromViteEnvironment();
+  const algodConfig = getAlgodConfigFromEnvironment();
   const algorand = AlgorandClient.fromConfig({ algodConfig });
 
   const { enqueueSnackbar } = useSnackbar();
@@ -23,7 +23,7 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
   const handleSubmitAlgo = async () => {
     setLoading(true);
 
-    if (!(transactionSigner && activeAddress)) {
+    if (!activeAddress) {
       enqueueSnackbar("Please connect wallet first", { variant: "warning" });
       return;
     }
