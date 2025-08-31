@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "algobuild": "mv node_modules/@types/react node_modules/@types/react.bak 2>/dev/null || true && mv node_modules/@types/react-dom node_modules/@types/react-dom.bak 2>/dev/null || true && algokit compile ts smart_contracts --output-source-map --out-dir artifacts && algokit generate client smart_contracts/artifacts --output {app_spec_dir}/{contract_name}Client.ts && mv node_modules/@types/react.bak node_modules/@types/react 2>/dev/null || true && mv node_modules/@types/react-dom.bak node_modules/@types/react-dom 2>/dev/null || true",
+    "algobuild": "pnpm rm @types/react-dom && algokit compile ts smart_contracts --output-source-map --out-dir artifacts && algokit generate client smart_contracts/artifacts --output {app_spec_dir}/{contract_name}Client.ts && pnpm add -D @types/react-dom",
     "deploy": "ts-node-dev --transpile-only --watch .env -r dotenv/config smart_contracts/index.ts",
     "deploy:ci": "ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "check-types": "tsc --noEmit"
