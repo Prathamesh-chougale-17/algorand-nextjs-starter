@@ -8,8 +8,8 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { HelloWorldFactory } from "../contracts/HelloWorld";
 import {
-  getAlgodConfigFromViteEnvironment,
-  getIndexerConfigFromViteEnvironment,
+  getAlgodConfigFromEnvironment,
+  getIndexerConfigFromEnvironment,
 } from "../utils/network/getAlgoClientConfigs";
 
 interface AppCallsInterface {
@@ -23,8 +23,8 @@ const AppCalls = ({ openModal, setModalState }: AppCallsInterface) => {
   const { enqueueSnackbar } = useSnackbar();
   const { transactionSigner, activeAddress } = useWallet();
 
-  const algodConfig = getAlgodConfigFromViteEnvironment();
-  const indexerConfig = getIndexerConfigFromViteEnvironment();
+  const algodConfig = getAlgodConfigFromEnvironment();
+  const indexerConfig = getIndexerConfigFromEnvironment();
   const algorand = AlgorandClient.fromConfig({
     algodConfig,
     indexerConfig,
