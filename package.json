@@ -41,7 +41,7 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
-    "zod": "^4.1.1"
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "^6.0.0",
@@ -49,12 +49,12 @@
     "@algorandfoundation/puya-ts": "1.0.0-beta.72",
     "@biomejs/biome": "2.2.0",
     "@rollup/plugin-typescript": "^12.1.4",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/node": "^20.19.11",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "dotenv": "^17.2.1",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.12",
     "ts-node-dev": "^2.0.0",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5.9.2"
