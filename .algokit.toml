@@ -29,7 +29,7 @@ environment_secrets = [
 
 [project.run]
 # Commands intended for use locally and in CI
-build = { commands = [
+algobuild = { commands = [
   'pnpm algobuild',
 ], description = 'Build all smart contracts in the project' }
 audit-teal = { commands = [
