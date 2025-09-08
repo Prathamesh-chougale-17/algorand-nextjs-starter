@@ -1,3 +1,4 @@
+"use client"
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import {
   OnSchemaBreak,
@@ -6,7 +7,7 @@ import {
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { HelloWorldFactory } from "../contracts/HelloWorld";
+import { HelloWorldFactory } from "../contracts/hello_world";
 import {
   getAlgodConfigFromEnvironment,
   getIndexerConfigFromEnvironment,

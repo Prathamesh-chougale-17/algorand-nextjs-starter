@@ -1,11 +1,11 @@
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useMemo } from "react";
 import { ellipseAddress } from "../utils/ellipseAddress";
-import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
+import { getAlgodConfigFromEnvironment } from "../utils/network/getAlgoClientConfigs";
 
 const Account = () => {
   const { activeAddress } = useWallet();
-  const algoConfig = getAlgodConfigFromViteEnvironment();
+  const algoConfig = getAlgodConfigFromEnvironment();
 
   const networkName = useMemo(() => {
     return algoConfig.network === ""

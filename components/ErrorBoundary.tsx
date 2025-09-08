@@ -1,3 +1,5 @@
+"use client"
+
 import React, { type ReactNode } from "react";
 
 interface ErrorBoundaryProps {
