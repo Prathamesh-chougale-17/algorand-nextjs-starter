@@ -32,6 +32,7 @@
   ],
   "registryDependencies": [
     "button",
+    "badge",
     "card",
     "dialog",
     "input",
