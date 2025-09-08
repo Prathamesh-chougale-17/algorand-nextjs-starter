@@ -1,78 +1,127 @@
 // src/components/Home.tsx
-"use client"
+"use client";
 
-import { useWallet } from '@txnlab/use-wallet-react'
-import React, { useState } from 'react'
-import ConnectWallet from './ConnectWallet'
-import Transact from './Transact'
-import AppCalls from './AppCalls'
+import { useWallet } from "@txnlab/use-wallet-react";
+import { Code, ExternalLink, Send, Wallet } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import AppCalls from "./AppCalls";
+import ConnectWallet from "./ConnectWallet";
+import Transact from "./Transact";
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = () => {
-  const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
-  const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
-  const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false)
-  const { activeAddress } = useWallet()
+const Home: React.FC = () => {
+  const [openWalletModal, setOpenWalletModal] = useState<boolean>(false);
+  const [openDemoModal, setOpenDemoModal] = useState<boolean>(false);
+  const [appCallsDemoModal, setAppCallsDemoModal] = useState<boolean>(false);
+  const { activeAddress } = useWallet();
 
   const toggleWalletModal = () => {
-    setOpenWalletModal(!openWalletModal)
-  }
+    setOpenWalletModal(!openWalletModal);
+  };
 
   const toggleDemoModal = () => {
-    setOpenDemoModal(!openDemoModal)
-  }
+    setOpenDemoModal(!openDemoModal);
+  };
 
   const toggleAppCallsModal = () => {
-    setAppCallsDemoModal(!appCallsDemoModal)
-  }
+    setAppCallsDemoModal(!appCallsDemoModal);
+  };
 
   return (
-    <div className="hero min-h-screen bg-teal-400">
-      <div className="hero-content text-center rounded-lg p-6 max-w-md bg-white mx-auto">
-        <div className="max-w-md">
-          <h1 className="text-4xl">
-            Welcome to <div className="font-bold">AlgoKit 🙂</div>
-          </h1>
-          <p className="py-6">
-            This starter has been generated using official AlgoKit React template. Refer to the resource below for next steps.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
+            A
+          </div>
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Welcome to AlgoKit
+          </CardTitle>
+          <CardDescription className="text-gray-600 leading-relaxed">
+            This starter has been generated using the official AlgoKit React
+            template. Get started building on Algorand!
+          </CardDescription>
+        </CardHeader>
 
-          <div className="grid">
+        <CardContent className="space-y-4">
+          <Button
+            data-test-id="getting-started"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg"
+            asChild
+          >
             <a
-              data-test-id="getting-started"
-              className="btn btn-primary m-2"
               target="_blank"
+              rel="noopener noreferrer"
               href="https://github.com/algorandfoundation/algokit-cli"
             >
-              Getting started
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Getting Started
             </a>
+          </Button>
 
-            <div className="divider" />
-            <button data-test-id="connect-wallet" className="btn m-2" onClick={toggleWalletModal}>
+          <Separator className="my-6" />
+
+          <div className="space-y-3">
+            <Button
+              data-test-id="connect-wallet"
+              variant="outline"
+              className="w-full hover:bg-blue-50 border-blue-200 hover:border-blue-300"
+              onClick={toggleWalletModal}
+            >
+              <Wallet className="w-4 h-4 mr-2" />
               Wallet Connection
-            </button>
+            </Button>
 
             {activeAddress && (
-              <button data-test-id="transactions-demo" className="btn m-2" onClick={toggleDemoModal}>
+              <Button
+                data-test-id="transactions-demo"
+                variant="outline"
+                className="w-full hover:bg-green-50 border-green-200 hover:border-green-300"
+                onClick={toggleDemoModal}
+              >
+                <Send className="w-4 h-4 mr-2" />
                 Transactions Demo
-              </button>
+              </Button>
             )}
 
             {activeAddress && (
-              <button data-test-id="appcalls-demo" className="btn m-2" onClick={toggleAppCallsModal}>
-                Contract Interactions Demo
-              </button>
+              <Button
+                data-test-id="appcalls-demo"
+                variant="outline"
+                className="w-full hover:bg-purple-50 border-purple-200 hover:border-purple-300"
+                onClick={toggleAppCallsModal}
+              >
+                <Code className="w-4 h-4 mr-2" />
+                Contract Interactions
+              </Button>
             )}
           </div>
 
-          <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-          <Transact openModal={openDemoModal} setModalState={setOpenDemoModal} />
-          <AppCalls openModal={appCallsDemoModal} setModalState={setAppCallsDemoModal} />
-        </div>
-      </div>
+          <ConnectWallet
+            openModal={openWalletModal}
+            closeModal={toggleWalletModal}
+          />
+          <Transact
+            openModal={openDemoModal}
+            setModalState={setOpenDemoModal}
+          />
+          <AppCalls
+            openModal={appCallsDemoModal}
+            setModalState={setAppCallsDemoModal}
+          />
+        </CardContent>
+      </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

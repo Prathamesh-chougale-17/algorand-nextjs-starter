@@ -1,7 +1,18 @@
 import { AlgorandClient, algo } from "@algorandfoundation/algokit-utils";
 import { useWallet } from "@txnlab/use-wallet-react";
+import { Loader2, Send } from "lucide-react";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { getAlgodConfigFromEnvironment } from "../utils/network/getAlgoClientConfigs";
 
 interface TransactInterface {
@@ -17,7 +28,6 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
   const algorand = AlgorandClient.fromConfig({ algodConfig });
 
   const { enqueueSnackbar } = useSnackbar();
-
   const { transactionSigner, activeAddress } = useWallet();
 
   const handleSubmitAlgo = async () => {
@@ -25,6 +35,7 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
 
     if (!activeAddress) {
       enqueueSnackbar("Please connect wallet first", { variant: "warning" });
+      setLoading(false);
       return;
     }
 
@@ -40,50 +51,82 @@ const Transact = ({ openModal, setModalState }: TransactInterface) => {
         variant: "success",
       });
       setReceiverAddress("");
-    } catch (e) {
+      setModalState(false);
+    } catch (error) {
+      console.error("Transaction failed:", error);
       enqueueSnackbar("Failed to send transaction", { variant: "error" });
     }
 
     setLoading(false);
   };
 
+  const isValidAddress = receiverAddress.length === 58;
+
   return (
-    <dialog
-      className={`modal ${openModal ? "modal-open" : ""} bg-slate-200`}
-      id="transact_modal"
-      style={{ display: openModal ? "block" : "none" }}
-    >
-      <form className="modal-box" method="dialog">
-        <h3 className="font-bold text-lg">Send payment transaction</h3>
-        <br />
-        <input
-          className="input input-bordered w-full"
-          data-test-id="receiver-address"
-          onChange={(e) => {
-            setReceiverAddress(e.target.value);
-          }}
-          placeholder="Provide wallet address"
-          type="text"
-          value={receiverAddress}
-        />
-        <div className="modal-action grid">
-          <button className="btn" onClick={() => setModalState(!openModal)}>
-            Close
-          </button>
-          <button
-            className={`btn ${receiverAddress.length === 58 ? "" : "btn-disabled"} lo`}
-            data-test-id="send-algo"
-            onClick={handleSubmitAlgo}
-          >
-            {loading ? (
-              <span className="loading loading-spinner" />
-            ) : (
-              "Send 1 Algo"
+    <Dialog open={openModal} onOpenChange={setModalState}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Send className="w-5 h-5" />
+            Send Payment Transaction
+          </DialogTitle>
+          <DialogDescription>
+            Send 1 ALGO to another wallet address on the Algorand network.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="receiver-address">Recipient Address</Label>
+            <Input
+              id="receiver-address"
+              data-test-id="receiver-address"
+              placeholder="Enter 58-character wallet address"
+              value={receiverAddress}
+              onChange={(e) => setReceiverAddress(e.target.value)}
+              className={`${
+                receiverAddress && !isValidAddress
+                  ? "border-red-300 focus:border-red-500"
+                  : "border-gray-200 focus:border-blue-500"
+              }`}
+            />
+            {receiverAddress && !isValidAddress && (
+              <p className="text-sm text-red-600">
+                Address must be exactly 58 characters long
+              </p>
             )}
-          </button>
+          </div>
+
+          <div className="flex gap-2 pt-4">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setModalState(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 bg-green-600 hover:bg-green-700"
+              data-test-id="send-algo"
+              disabled={!isValidAddress || loading}
+              onClick={handleSubmitAlgo}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Send 1 ALGO
+                </>
+              )}
+            </Button>
+          </div>
         </div>
-      </form>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 

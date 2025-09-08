@@ -1,13 +1,21 @@
-"use client"
+"use client";
 
-import { SupportedWallet, WalletId, WalletManager, WalletProvider } from '@txnlab/use-wallet-react'
-import { SnackbarProvider } from 'notistack'
-import Home from '@/components/Home'
-import { getAlgodConfigFromEnvironment, getKmdConfigFromEnvironment } from '@/utils/network/getAlgoClientConfigs'
+import {
+  type SupportedWallet,
+  WalletId,
+  WalletManager,
+  WalletProvider,
+} from "@txnlab/use-wallet-react";
+import { SnackbarProvider } from "notistack";
+import Home from "@/components/Home";
+import {
+  getAlgodConfigFromEnvironment,
+  getKmdConfigFromEnvironment,
+} from "@/utils/network/getAlgoClientConfigs";
 
-let supportedWallets: SupportedWallet[]
-if (process.env.NEXT_PUBLIC_ALGOD_NETWORK === 'localnet') {
-  const kmdConfig = getKmdConfigFromEnvironment()
+let supportedWallets: SupportedWallet[];
+if (process.env.NEXT_PUBLIC_ALGOD_NETWORK === "localnet") {
+  const kmdConfig = getKmdConfigFromEnvironment();
   supportedWallets = [
     {
       id: WalletId.KMD,
@@ -17,7 +25,7 @@ if (process.env.NEXT_PUBLIC_ALGOD_NETWORK === 'localnet') {
         port: String(kmdConfig.port),
       },
     },
-  ]
+  ];
 } else {
   supportedWallets = [
     { id: WalletId.DEFLY },
@@ -25,11 +33,11 @@ if (process.env.NEXT_PUBLIC_ALGOD_NETWORK === 'localnet') {
     { id: WalletId.EXODUS },
     // If you are interested in WalletConnect v2 provider
     // refer to https://github.com/TxnLab/use-wallet for detailed integration instructions
-  ]
+  ];
 }
 
 export default function App() {
-  const algodConfig = getAlgodConfigFromEnvironment()
+  const algodConfig = getAlgodConfigFromEnvironment();
 
   const walletManager = new WalletManager({
     wallets: supportedWallets,
@@ -46,7 +54,7 @@ export default function App() {
     options: {
       resetNetwork: true,
     },
-  })
+  });
 
   return (
     <SnackbarProvider maxSnack={3}>
@@ -54,5 +62,5 @@ export default function App() {
         <Home />
       </WalletProvider>
     </SnackbarProvider>
-  )
+  );
 }

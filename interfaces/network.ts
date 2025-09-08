@@ -1,26 +1,30 @@
-import { AlgoClientConfig } from '@algorandfoundation/algokit-utils/types/network-client'
-import type { TokenHeader } from 'algosdk/dist/types/client/urlTokenBaseHTTPClient'
+import type { AlgoClientConfig } from "@algorandfoundation/algokit-utils/types/network-client";
+
+// Define TokenHeader interface locally since the algosdk import path has changed
+interface TokenHeader {
+  [key: string]: string;
+}
 
 export interface AlgoViteClientConfig extends AlgoClientConfig {
   /** Base URL of the server e.g. http://localhost, https://testnet-api.algonode.cloud/, etc. */
-  server: string
+  server: string;
   /** The port to use e.g. 4001, 443, etc. */
-  port: string | number
+  port: string | number;
   /** The token to use for API authentication (or undefined if none needed) - can be a string, or an object with the header key => value */
-  token: string | TokenHeader
+  token: string | TokenHeader;
   /** String representing current Algorand Network type (testnet/mainnet and etc) */
-  network: string
+  network: string;
 }
 
 export interface AlgoViteKMDConfig extends AlgoClientConfig {
   /** Base URL of the server e.g. http://localhost, https://testnet-api.algonode.cloud/, etc. */
-  server: string
+  server: string;
   /** The port to use e.g. 4001, 443, etc. */
-  port: string | number
+  port: string | number;
   /** The token to use for API authentication (or undefined if none needed) - can be a string, or an object with the header key => value */
-  token: string | TokenHeader
+  token: string | TokenHeader;
   /** KMD wallet name */
-  wallet: string
+  wallet: string;
   /** KMD wallet password */
-  password: string
+  password: string;
 }
