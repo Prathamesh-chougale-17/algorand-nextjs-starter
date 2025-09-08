@@ -47,7 +47,7 @@ const Home: React.FC = () => {
             Welcome to AlgoKit
           </CardTitle>
           <CardDescription className="text-gray-600 leading-relaxed">
-            This starter has been generated using the official AlgoKit React
+            This starter has been generated using the official AlgoKit Nextjs 15
             template. Get started building on Algorand!
           </CardDescription>
         </CardHeader>
